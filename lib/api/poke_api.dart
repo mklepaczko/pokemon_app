@@ -9,31 +9,38 @@ const bool _debug = true;
 
 class PokeApi{
 
-  Future<List<Pokemon>> getPokemonList([int offset]) async {
+  Future<List<Pokemon>> getPokemonList() async {
     final String listUrl = POKE_API_BASE_URL + POKE_API_POKEMON_PATH;
-    final int pokePerPage = POKE_PER_PAGE_VALUE;
     var response;
 
+      // If limit is not set API returns 20 records. There is no call to return all pokemons
+      // so limit should be above total number of pokes
+      // As an enhancement we could check if total pokomons is > limit and change limit accordingly
+
     try{
-      response = await http.get('$listUrl?limit=$pokePerPage&offset=$offset');
+      response = await http.get('$listUrl?limit=$TOTAL_POKES_IN_API');
     }catch(error){
     if (_debug) print(error);
     }
-    final decodedList = jsonDecode(response.body);
-    if (_debug) print(decodedList);
+    if (response == null) return null;
+
+    final Map decodedList = jsonDecode(response.body);
+    if (_debug) print('There are ${decodedList['results'].length} pokemons in the API');
   return List.from(decodedList['results'].map((item) => Pokemon.fromJson(item)));
 
   }
 
-  Future<String> getPokemonImage(Pokemon pokemon) async{
+  Future<PokemonDetails> getPokemon(Pokemon pokemon) async{
     var response;
     try{
       response = await http.get(pokemon.url);
     }catch(error){
       if (_debug) print(error);
     }
-    final decodedResponse = jsonDecode(response.body);
-    return PokemonDetails.fromJson(decodedResponse).sprites.frontDefault;
+    if (response == null) return null;
+
+    final Map decodedResponse = jsonDecode(response.body);    
+    return PokemonDetails.fromJson(decodedResponse);
   }
 }
 

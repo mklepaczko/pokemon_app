@@ -10,11 +10,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Pokemon Demo',
       theme: ThemeData(
-
-        primarySwatch: Colors.blue,
-
+        primarySwatch: Colors.orange,
+        primaryColor: Colors.white,
+        accentColor: Colors.orange,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: MyHomePage(),

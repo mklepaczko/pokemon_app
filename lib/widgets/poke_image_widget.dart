@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:pokemon_app/globals.dart';
+import 'package:pokemon_app/models/pokemon_detail_model.dart';
+import 'package:pokemon_app/screens/poke_details.dart';
 
 import '../api/poke_api.dart';
 import '../models/pokemon_list_model.dart';
 
 class PokeImage extends StatefulWidget {
-    final Pokemon _pokemon;
+    final Pokemon pokemon;
 
-    PokeImage(this._pokemon);
+    PokeImage(
+      this.pokemon,
+      Key key
+      ) : super(key: key);
 
     @override
     _PokeImageState createState() => _PokeImageState();
@@ -15,6 +20,7 @@ class PokeImage extends StatefulWidget {
   
   class _PokeImageState extends State<PokeImage> {
     bool _isLoading = false;
+    PokemonDetails pokeDetails;
     String imageUrl;
     
 
@@ -23,12 +29,15 @@ class PokeImage extends StatefulWidget {
     setState(() {
       _isLoading = true;
     });
-    getImage(widget._pokemon);
+    getPokeDetails(widget.pokemon);
     super.initState();
   }
 
-  getImage(Pokemon pokemon) async{
-    imageUrl = await pokeApi.getPokemonImage(widget._pokemon);
+  // Generates all the API calls to fetch image url. To be checked if not a common url pattern to avoid calls
+
+  getPokeDetails(Pokemon pokemon) async{
+    pokeDetails = await pokeApi.getPokemon(widget.pokemon);
+    imageUrl = pokeDetails?.sprites?.frontDefault;
     if (mounted) setState(() {
       _isLoading = false;
     });
@@ -36,12 +45,17 @@ class PokeImage extends StatefulWidget {
 
     @override
     Widget build(BuildContext context) {
-      return CircleAvatar(
-        radius: 40,
-        backgroundColor: Colors.white,
-        backgroundImage: (_isLoading)
-          ? AssetImage(ASSETS_SOWA_IMAGE)
-          : NetworkImage(imageUrl),
+      return GestureDetector(
+        onTap: () {
+          Navigator.push(context, MaterialPageRoute(builder: (context) => PokeDetailPage(pokeDetails)));
+        },
+        child: CircleAvatar(
+          radius: 40,
+          backgroundColor: Theme.of(context).primaryColor,
+          backgroundImage: (_isLoading || imageUrl == null)
+            ? AssetImage(ASSETS_DEFAULT_IMAGE)
+            : NetworkImage(imageUrl),
+        ),
       );
     }
   }
