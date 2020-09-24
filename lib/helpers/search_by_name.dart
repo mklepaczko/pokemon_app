@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:pokemon_app/models/pokemon_list_model.dart';
+
+import '../models/pokemon_list_model.dart';
 
 
 class SearchByName extends StatefulWidget {

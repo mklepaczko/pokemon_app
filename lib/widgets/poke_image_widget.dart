@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:pokemon_app/globals.dart';
-import 'package:pokemon_app/models/pokemon_detail_model.dart';
-import 'package:pokemon_app/screens/poke_details.dart';
 
+import '../globals.dart';
+import '../models/pokemon_detail_model.dart';
+import '../screens/poke_details.dart';
 import '../api/poke_api.dart';
 import '../models/pokemon_list_model.dart';
 

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:pokemon_app/models/pokemon_detail_model.dart';
 
+import '../models/pokemon_detail_model.dart';
 import '../globals.dart';
 
 class PokeDetailPage extends StatelessWidget {
@@ -37,7 +37,7 @@ class PokeDetailPage extends StatelessWidget {
             ),
             width: 300,
             child: Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: EdgeInsets.all(8.0),
               child: Column(
                 children: [
                   Row(
@@ -45,7 +45,6 @@ class PokeDetailPage extends StatelessWidget {
                     children:[
                       detailTexts(context, 'Height', '${pokeDetails.height.toString()} ft'),
                       detailTexts(context, 'Weight', '${pokeDetails.weight.toString()} lbs'),
-
                     ]
                   ),
                 ],),

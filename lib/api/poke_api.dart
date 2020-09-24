@@ -6,6 +6,7 @@ import '../globals.dart';
 import '../models/pokemon_detail_model.dart';
 
 const bool _debug = true;
+const String decodeResult = 'results';
 
 class PokeApi{
 
@@ -15,7 +16,7 @@ class PokeApi{
 
       // If limit is not set API returns 20 records. There is no call to return all pokemons
       // so limit should be above total number of pokes
-      // As an enhancement we could check if total pokomons is > limit and change limit accordingly
+      // As an enhancement we could check if total pokomons == limit and change limit accordingly
 
     try{
       response = await http.get('$listUrl?limit=$TOTAL_POKES_IN_API');
@@ -25,8 +26,8 @@ class PokeApi{
     if (response == null) return null;
 
     final Map decodedList = jsonDecode(response.body);
-    if (_debug) print('There are ${decodedList['results'].length} pokemons in the API');
-  return List.from(decodedList['results'].map((item) => Pokemon.fromJson(item)));
+    if (_debug) print('There are ${decodedList[decodeResult].length} pokemons in the API');
+  return List.from(decodedList[decodeResult].map((item) => Pokemon.fromJson(item)));
 
   }
 

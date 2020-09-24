@@ -1,10 +1,9 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
-import 'package:pokemon_app/globals.dart';
-import 'package:pokemon_app/helpers/search_by_name.dart';
-import 'package:pokemon_app/widgets/poke_image_widget.dart';
 
+import '../globals.dart';
+import '../helpers/search_by_name.dart';
+import '../widgets/poke_image_widget.dart';
 import '../models/pokemon_list_model.dart';
 import '../api/poke_api.dart';
 
@@ -30,8 +29,7 @@ class _MyHomePageState extends State<MyHomePage> {
       }
 
     });
-    downloadPokemonList();
-    
+    downloadPokemonList();    
     super.initState();
   }
 
@@ -40,7 +38,7 @@ class _MyHomePageState extends State<MyHomePage> {
       _isLoading = true;
     });
 
-    // The API does not have a search method so we need to fetch all and search then
+    // The API does not have a search method so we need to fetch all data and search then
     // if search was not needed we could only fetch a partial list    
 
     pokemonFullList = await pokeApi.getPokemonList();   
@@ -55,7 +53,7 @@ class _MyHomePageState extends State<MyHomePage> {
     });
     _items = _items + POKE_PER_PAGE_VALUE;
     pokemonPartialList = [...pokemonFullList.take(_items)];
-    Timer(Duration(seconds: 1), () {
+    Timer(Duration(seconds: 1), () {   // Shows the pagination loading that woould take time when loading from API
       setState(() {
       _isUpdating = false;
     });
@@ -88,7 +86,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     setState(() {
                       print(name);
                       pokemonPartialList = [pokemonFullList.firstWhere(
-                        (element) => element?.name == name,
+                        (element) => element?.name == name,  // To be enhance with better search engine to avoid uppercase and dash issues
                         orElse: () => null)];
                     });
                   }),
@@ -97,7 +95,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 icon: Icon(Icons.cancel, color: Theme.of(context).primaryColor), 
                 onPressed: () {
                   setState(() {
-                    pokemonPartialList = [...pokemonFullList.take(_items)];
+                    pokemonPartialList = [...pokemonFullList.take(_items)];   // Cancels search
                   });
                 })
             ],

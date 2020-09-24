@@ -1,7 +1,3 @@
-
-
-// Poke API access paths
-
 // PokeApi fields
 
 const POKE_API_BASE_URL = 'https://pokeapi.co/api/v2/';
